@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "377636811399",
+    "firebase_url": "https://jerd-43491.firebaseio.com",
+    "project_id": "jerd-43491",
+    "storage_bucket": "jerd-43491.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377636811399:android:d1c437429cef997a",
+        "android_client_info": {
+          "package_name": "app.com.example.victoriajuan.jerdapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377636811399-liqq3cu34lo1oarefe4sda892dfgubu8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwFbJrNe1R5uMCNzefrUvWvG8LHtTl9wo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
