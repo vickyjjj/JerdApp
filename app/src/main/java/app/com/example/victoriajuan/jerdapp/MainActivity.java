@@ -19,6 +19,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+/*        getFragmentManager().beginTransaction()
+                .replace(content_frame
+                        , new MainFragment())
+                .commit();*/
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_main_layout);
     }
 
     @Override
@@ -69,9 +76,9 @@ public class MainActivity extends AppCompatActivity
                     .replace(content_frame
                             , new ThirdFragment())
                     .commit();
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_howto) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_account) {
 
         }
 
