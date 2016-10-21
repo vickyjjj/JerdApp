@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*        getFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .replace(content_frame
                         , new MainFragment())
-                .commit();*/
+                .commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
