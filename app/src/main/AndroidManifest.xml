@@ -24,6 +24,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".AudioRecordActivity"
+            android:label="@string/recorder"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NotesActivity"
+            android:label="@string/notes"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TipsActivity"
+            android:label="@string/interview_tips"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
