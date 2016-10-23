@@ -5,7 +5,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/files_activity"
-        android:id="@+id/first_text"/>
-
+        android:text="@string/account"
+        android:id="@+id/account_text"/>
 </RelativeLayout>

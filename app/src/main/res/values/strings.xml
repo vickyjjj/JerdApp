@@ -5,7 +5,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="first_activity">First Activity</string>
-    <string name="second_activity">Second Activity</string>
-    <string name="third_activity">Third Activity</string>
+    <string name="how_to">How To</string>
+    <string name="account">Manage Account</string>
+
+    <string name="tools_activity">Tools</string>
+    <string name="tools_descr">Select a tool to open.</string>
+    <string name="recorder">Recorder</string>
+    <string name="interview_tips">Interview Tips</string>
+    <string name="camera">Camera</string>
+    <string name="notes">Notes</string>
+    <string name="files_activity">My Files</string>
+    <string name="send_in_activity">Send Files</string>
+    <string name="check_activity">Check Files</string>
 </resources>

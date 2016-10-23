@@ -5,31 +5,31 @@
         <item
             android:id="@+id/nav_main_layout"
             android:icon="@drawable/ic_notes"
-            android:title="Main Layout" />
+            android:title="@string/tools_activity" />
         <item
             android:id="@+id/nav_first_layout"
             android:icon="@drawable/ic_files"
-            android:title="First Layout" />
+            android:title="@string/files_activity" />
         <item
             android:id="@+id/nav_second_layout"
             android:icon="@drawable/ic_send_in"
-            android:title="Second Layout" />
+            android:title="@string/send_in_activity" />
         <item
             android:id="@+id/nav_third_layout"
             android:icon="@drawable/ic_check_out"
-            android:title="Third Layout" />
+            android:title="@string/check_activity" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="@string/action_settings">
         <menu>
             <item
                 android:id="@+id/nav_howto"
                 android:icon="@drawable/ic_help"
-                android:title="How To" />
+                android:title="@string/how_to" />
             <item
                 android:id="@+id/nav_account"
                 android:icon="@drawable/ic_account"
-                android:title="Accounts" />
+                android:title="@string/account" />
         </menu>
     </item>
 
