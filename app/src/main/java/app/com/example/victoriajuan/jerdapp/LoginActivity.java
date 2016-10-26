@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "@:username:password"
+            "@:password"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mEmailView;
-    private EditText mUsername;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -46,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
-        mUsername = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -83,12 +81,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // Reset errors.
         mEmailView.setError(null);
-        mUsername.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String username = mUsername.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -120,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, username, password);
+            mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -178,12 +174,10 @@ public class LoginActivity extends AppCompatActivity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
-        private final String mUsername;
         private final String mPassword;
 
-        UserLoginTask(String email, String username, String password) {
+        UserLoginTask(String email, String password) {
             mEmail = email;
-            mUsername = username;
             mPassword = password;
         }
 
@@ -200,13 +194,9 @@ public class LoginActivity extends AppCompatActivity {
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                String[] pieces2 = {};
-                for (String cred : pieces) {
-                    pieces2 = cred.split(":");
-                }
-                if (pieces[0].equals(mEmail) && pieces2[0].equals(mUsername)) {
+                if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    return pieces2[1].equals(mPassword);
+                    return pieces[1].equals(mPassword);
                 }
             }
 
@@ -220,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                SaveSharedPreference.setDefaultAcc(LoginActivity.this, mEmail, mUsername);
+                SaveSharedPreference.setDefaultAcc(LoginActivity.this, mEmail);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
