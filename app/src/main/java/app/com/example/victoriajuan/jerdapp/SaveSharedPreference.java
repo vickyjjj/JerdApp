@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 public class SaveSharedPreference {
     static final String INCOGNITO_MODE = "";
     static final String ACC_EMAIL = "";
-    static final String ACC_PASS = "";
+    static final String ACC_USERNAME = "";
 
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -23,9 +23,10 @@ public class SaveSharedPreference {
         editor.apply();
     }
 
-    public static void setDefaultAcc(Context ctx, String val1) {
+    public static void setDefaultAcc(Context ctx, String val1, String val2) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(ACC_EMAIL, val1);
+        editor.putString(ACC_USERNAME, val2);
         editor.apply();
     }
 
