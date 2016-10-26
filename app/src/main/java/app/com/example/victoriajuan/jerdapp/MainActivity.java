@@ -77,7 +77,10 @@ public class MainActivity extends AppCompatActivity
                             , new ThirdFragment())
                     .commit();
         } else if (id == R.id.nav_howto) {
-
+            fragmentManager.beginTransaction()
+                    .replace(content_frame
+                            , new SettingsActivity())
+                    .commit();
         } else if (id == R.id.nav_account) {
             fragmentManager.beginTransaction()
                     .replace(content_frame
