@@ -52,10 +52,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
@@ -75,16 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                 createNewAccount();
             }
         });
-        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });*/
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -122,16 +110,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        Toast.makeText(LoginActivity.this, "YO FAM",
-                                Toast.LENGTH_SHORT).show();
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "ROAST",
-                                    Toast.LENGTH_SHORT).show();
                             showProgress(false);
-                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.setError(getString(R.string.error_incorrect));
                             mPasswordView.requestFocus();
                         } else {
                             showProgress(false);
@@ -185,18 +167,25 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                            Toast.makeText(LoginActivity.this, "YO FAM",
-                                    Toast.LENGTH_SHORT).show();
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
+
                             if (!task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, R.string.auth_failed_create,
-                                        Toast.LENGTH_SHORT).show();
                                 showProgress(false);
-                                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                                mPasswordView.setError(getString(R.string.error_already));
                                 mPasswordView.requestFocus();
                             } else {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "Email sent.");
+                                                }
+                                            }
+                                        });
+                                Toast.makeText(LoginActivity.this, "Please confirm your account via the verification email sent to you.",
+                                        Toast.LENGTH_LONG).show();
                                 showProgress(false);
                                 finish();
                             }

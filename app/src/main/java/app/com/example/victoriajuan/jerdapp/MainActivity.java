@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_howto) {
             fragmentManager.beginTransaction()
                     .replace(content_frame
-                            , new SettingsActivity())
+                            , new HowToFragment())
                     .commit();
         } else if (id == R.id.nav_account) {
             fragmentManager.beginTransaction()
                     .replace(content_frame
-                            , new AccountFragment())
+                            , new SettingsActivity())
                     .commit();
         }
 

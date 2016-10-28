@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by victoriajuan on 10/12/16.
  */
 
-public class AccountFragment extends Fragment {
+public class HowToFragment extends Fragment {
     View myView;
 
     @Nullable

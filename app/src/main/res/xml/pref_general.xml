@@ -9,9 +9,9 @@
         android:summary="Set the default organization account to send in and check files" />
 
     <Preference
-        android:key="pref_change_username_key"
-        android:title="Change account password"
-        android:summary="Change the password for an organization's account" />
+        android:key="pref_change_email_key"
+        android:title="Change account email"
+        android:summary="Change the email for an organization's account" />
 
     <Preference
         android:key="pref_change_pass_key"
