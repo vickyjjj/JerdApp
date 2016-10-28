@@ -81,6 +81,30 @@ public class SettingsActivity extends PreferenceFragment
                 return true;
             }
         });
+
+        Preference emailPref = findPreference("pref_change_email_key");
+        emailPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(getActivity(), ChangeEmailActivity.class);
+                    startActivity(intent);
+                } else {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setTitle("No Account");
+                    alertDialog.setMessage("You are currently not signed into an account. Sign in to change email.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+                return true;
+            }
+        });
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {

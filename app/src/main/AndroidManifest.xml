@@ -45,6 +45,14 @@
             android:name=".LoginActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="Change Password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChangeEmailActivity"
+            android:label="Change Email"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

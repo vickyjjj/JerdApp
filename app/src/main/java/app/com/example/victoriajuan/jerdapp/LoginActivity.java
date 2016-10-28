@@ -100,9 +100,6 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
         showProgress(true);
 
         mAuth.signInWithEmailAndPassword(email, password)

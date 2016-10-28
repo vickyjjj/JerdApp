@@ -22,26 +22,26 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * A login screen that offers login via email/password.
  */
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangeEmailActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private final String TAG = ChangePasswordActivity.class.getSimpleName();
+    private final String TAG = ChangeEmailActivity.class.getSimpleName();
 
     // UI references.
-    private EditText mPasswordView;
+    private EditText mEmailView;
     private View mProgressView;
     private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change);
+        setContentView(R.layout.activity_email);
 
         mAuth = FirebaseAuth.getInstance();
 
         // Set up the login form.
-        mPasswordView = (EditText) findViewById(R.id.new_password);
+        mEmailView = (EditText) findViewById(R.id.new_email);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -55,7 +55,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         };
 
-        Button mChangeButton = (Button) findViewById(R.id.change_pass_button);
+        Button mChangeButton = (Button) findViewById(R.id.change_email_button);
         mChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +63,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
-        mLoginFormView = findViewById(R.id.pass_form);
-        mProgressView = findViewById(R.id.change_progress);
+        mLoginFormView = findViewById(R.id.email_form);
+        mProgressView = findViewById(R.id.email_progress);
 
     }
 
@@ -82,18 +82,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void changePasswordFunc() {
 
         // Reset errors.
-        mPasswordView.setError(null);
+        mEmailView.setError(null);
 
         // Store values at the time of the login attempt.
-        String password = mPasswordView.getText().toString();
+        String email = mEmailView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
             cancel = true;
         }
 
@@ -106,16 +110,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
             showProgress(true);
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            user.updatePassword(password)
+            user.updateEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d(TAG, "User password updated.");
+                                Log.d(TAG, "User email address updated.");
                                 showProgress(false);
                                 finish();
                             } else {
-                                Toast.makeText(ChangePasswordActivity.this, "Error: cannot change password at this time.",
+                                Toast.makeText(ChangeEmailActivity.this, "Error: cannot change email at this time.",
                                         Toast.LENGTH_LONG).show();
                                 showProgress(false);
                                 finish();
@@ -125,9 +129,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return email.contains("@");
     }
 
     /**
