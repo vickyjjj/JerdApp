@@ -29,4 +29,5 @@ public class SaveSharedPreference {
     }
 
     public static boolean getMode(Context ctx) { return getSharedPreferences(ctx).getBoolean(INCOGNITO_MODE, true); }
+
 }

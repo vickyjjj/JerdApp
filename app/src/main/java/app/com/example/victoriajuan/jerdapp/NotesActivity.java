@@ -50,7 +50,7 @@ public class NotesActivity extends AppCompatActivity {
         FileOutputStream outputStream;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("What project are these notes for?");
+        builder.setTitle("Title your notes:");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
