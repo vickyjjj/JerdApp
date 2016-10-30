@@ -1,17 +1,26 @@
 package app.com.example.victoriajuan.jerdapp;
 
+import android.content.DialogInterface;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by victoriajuan on 10/22/16.
@@ -20,6 +29,8 @@ import java.util.ArrayList;
 public class AudioRecordActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private String selectedProject;
+    private MediaRecorder mAudioRecorder;
+    private String outputFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +41,6 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        Button startRecording = (Button) findViewById(R.id.start_recording);
-        Button pauseRecording = (Button) findViewById(R.id.pause_recording);
-        Button endRecording = (Button) findViewById(R.id.end_recording);
-
-        endRecording.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveRecording();
-            }
-        });
 
         Spinner spinner = (Spinner) findViewById(R.id.audio_spinner);
 
@@ -55,6 +55,88 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(AudioRecordActivity.this);
+
+        final Button startRecording = (Button) findViewById(R.id.start_recording);
+        final Button endRecording = (Button) findViewById(R.id.end_recording);
+
+        startRecording.setEnabled(true);
+        endRecording.setEnabled(false);
+
+        mAudioRecorder = new MediaRecorder();
+        mAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+        startRecording.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                final String[] filename = new String[1];
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AudioRecordActivity.this);
+                builder.setTitle("Title your recording:");
+
+                final EditText audInput = new EditText(AudioRecordActivity.this);
+                audInput.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(audInput);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                        String formattedDate = df.format(c.getTime());
+
+                        filename[0] = audInput.getText().toString() + "_" + formattedDate;
+
+                        dialog.dismiss();
+
+                        outputFile = getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + filename[0] + ".3gp";
+                        mAudioRecorder.setOutputFile(outputFile);
+
+                        try {
+                            mAudioRecorder.prepare();
+                            mAudioRecorder.start();
+                        }
+
+                        catch (IllegalStateException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        startRecording.setEnabled(false);
+                        endRecording.setEnabled(true);
+
+                        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.show();
+
+            }
+        });
+
+        endRecording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAudioRecorder.stop();
+                mAudioRecorder.release();
+                mAudioRecorder  = null;
+
+                endRecording.setEnabled(false);
+                startRecording.setEnabled(true);
+
+                Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+        });
     }
 
     @Override
@@ -63,10 +145,6 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         selectedProject = "Uncategorized";
-    }
-
-    public void saveRecording() {
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
