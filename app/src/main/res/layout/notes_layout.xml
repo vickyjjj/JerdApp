@@ -44,6 +44,12 @@
             android:layout_width="fill_parent"
             android:scrollbars="vertical" />
 
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notes_spinner" />
+
         <Button
             android:id="@+id/save_notes"
             style="?android:textAppearanceMedium"

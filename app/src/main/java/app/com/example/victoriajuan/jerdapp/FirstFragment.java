@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -64,5 +65,6 @@ public class FirstFragment extends Fragment{
         File newFile = new File(getActivity().getFilesDir(), str);
         newFile.mkdir();
         Log.d("FirstFragment", getActivity().getFilesDir().getPath());
+        Toast.makeText(getActivity(), str + " project created.", Toast.LENGTH_LONG).show();
     }
 }
