@@ -11,10 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by user on 12/31/15.
@@ -22,11 +26,40 @@ import java.io.File;
 public class FirstFragment extends Fragment{
 
     View myView;
+    private ArrayAdapter<String> mFilesAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.first_layout, container, false);
+
+        mFilesAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                R.layout.list_item,
+                R.id.list_item,
+                new ArrayList<String>()
+        );
+
+        File[] projectNames = getActivity().getFilesDir().listFiles();
+
+        for (int i = 0; i < projectNames.length; i++) {
+            mFilesAdapter.add(projectNames[i].getName());
+        }
+
+        ListView listView = (ListView) myView.findViewById(R.id.listview_local_projects);
+        listView.setAdapter(mFilesAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String str = mFilesAdapter.getItem(i);
+                if (str.contains("_")) {
+
+                } else {
+                    recreateView(str);
+                }
+            }
+        });
+
         return myView;
 
     }
@@ -66,5 +99,15 @@ public class FirstFragment extends Fragment{
         newFile.mkdir();
         Log.d("FirstFragment", getActivity().getFilesDir().getPath());
         Toast.makeText(getActivity(), str + " project created.", Toast.LENGTH_LONG).show();
+    }
+
+    private void recreateView(String str) {
+        mFilesAdapter.clear();
+        File newPath = new File(getActivity().getFilesDir().getAbsolutePath() + "/" + str + "/");
+        File[] fileNames = newPath.listFiles();
+
+        for (int i = 0; i < fileNames.length; i++) {
+            mFilesAdapter.add(fileNames[i].getName());
+        }
     }
 }

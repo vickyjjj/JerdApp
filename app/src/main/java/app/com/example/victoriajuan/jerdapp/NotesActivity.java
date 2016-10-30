@@ -1,13 +1,11 @@
 package app.com.example.victoriajuan.jerdapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,11 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by victoriajuan on 10/22/16.
@@ -53,15 +51,13 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
 
         Spinner spinner = (Spinner) findViewById(R.id.notes_spinner);
 
-        List<String> categories = new ArrayList<String>();
-        categories.add("Automobile");
-        categories.add("Business Services");
-        categories.add("Computers");
-        categories.add("Education");
-        categories.add("Personal");
-        categories.add("Travel");
+        File[] projectNames = this.getFilesDir().listFiles();
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<String>());
+
+        for (int i = 0; i < projectNames.length; i++) {
+            dataAdapter.add(projectNames[i].getName());
+        }
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
@@ -72,7 +68,6 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedProject = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), "Selected: " + selectedProject, Toast.LENGTH_LONG).show();
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         selectedProject = "Uncategorized";
@@ -81,8 +76,6 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
     public void saveNote() {
 
         final String[] filename = new String[1];
-        String string = writtenNote.getText().toString();
-        FileOutputStream outputStream;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title your notes:");
@@ -99,19 +92,27 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
                 String formattedDate = df.format(c.getTime());
 
-                filename[0] = input.getText().toString() + formattedDate;
+                filename[0] = input.getText().toString() + "_" + formattedDate;
+
+                try {
+                    FileOutputStream outputStream;
+                    String string = writtenNote.getText().toString();
+                    File newFile = new File(NotesActivity.this.getFilesDir() + "/" + selectedProject + "/", filename[0].replaceAll("\\s+",""));
+                    newFile.createNewFile();
+
+                    outputStream = new FileOutputStream(newFile);
+                    outputStream.write(string.getBytes());
+                    outputStream.close();
+                    Toast.makeText(NotesActivity.this, "Notes saved.", Toast.LENGTH_LONG).show();
+                    finish();
+                } catch (Exception e) {
+                    Toast.makeText(NotesActivity.this, "Notes not saved. Check that your title does not contain punctuation.", Toast.LENGTH_LONG).show();
+                }
+
                 dialog.dismiss();
             }
         });
         builder.show();
-
-        try {
-            outputStream = openFileOutput(filename[0], Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
