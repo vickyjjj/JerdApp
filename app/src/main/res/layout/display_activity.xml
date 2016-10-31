@@ -41,7 +41,7 @@
             android:textStyle="bold"
             style="?android:textAppearanceLarge"
             android:gravity="center"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/play_recording"
@@ -51,7 +51,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="Play recording"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/pause_recording"
@@ -61,12 +61,12 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="Pause recording"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:id="@+id/display_img"/>
 
 

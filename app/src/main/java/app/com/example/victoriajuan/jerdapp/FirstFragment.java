@@ -29,6 +29,7 @@ public class FirstFragment extends Fragment{
 
     View myView;
     private ArrayAdapter<String> mFilesAdapter;
+    private String selectedProject;
 
     @Nullable
     @Override
@@ -55,18 +56,11 @@ public class FirstFragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = mFilesAdapter.getItem(i);
                 if (str.contains(".")) {
-                    String string;
-                    if (str.contains("png")) {
-                        string = "img";
-                    } else if (str.contains("txt")) {
-                        string = "txt";
-                    } else {
-                        string = "aud";
-                    }
-                    SaveSharedPreference.setFileTypeViewing(getActivity(), string);
+                    SaveSharedPreference.setFileDir(getActivity(), getActivity().getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + str);
                     Intent nextActivity = new Intent(getActivity(), DisplayFileActivity.class);
                     startActivity(nextActivity);
                 } else {
+                    selectedProject = str;
                     recreateView(str);
                 }
             }
