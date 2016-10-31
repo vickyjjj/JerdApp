@@ -2,6 +2,7 @@ package app.com.example.victoriajuan.jerdapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +29,7 @@ public class DisplayFileActivity extends AppCompatActivity {
     private TextView txt;
     private Button playButton;
     private Button pauseButton;
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class DisplayFileActivity extends AppCompatActivity {
         pauseButton = (Button) findViewById(R.id.pause_recording);
 
         fileDir = SaveSharedPreference.getFileDir(DisplayFileActivity.this);
-        Toast.makeText(getApplicationContext(), fileDir, Toast.LENGTH_LONG).show();
 
         if (fileDir.contains("png")) {
             img.setVisibility(View.VISIBLE);
@@ -83,7 +83,31 @@ public class DisplayFileActivity extends AppCompatActivity {
     }
 
     private void displayAudio() {
+        playButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                mPlayer = new MediaPlayer();
+                try {
+                    mPlayer.setDataSource(fileDir);
+                    mPlayer.prepare();
+                    mPlayer.start();
+                } catch (IOException e) {
+                }
+                playButton.setEnabled(false);
+                pauseButton.setEnabled(true);
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPlayer.release();
+                mPlayer = null;
+                playButton.setEnabled(false);
+                pauseButton.setEnabled(true);
+            }
+        });
     }
 
     private void displayNote() {
