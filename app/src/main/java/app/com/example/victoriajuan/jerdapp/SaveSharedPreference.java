@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 public class SaveSharedPreference {
     static final String INCOGNITO_MODE = "";
     static final String ACC_EMAIL = "";
+    static final String FILE_TYPE = "";
 
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -28,6 +29,13 @@ public class SaveSharedPreference {
         editor.apply();
     }
 
+    public static void setFileTypeViewing(Context ctx, String val) {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(FILE_TYPE, val);
+        editor.apply();
+    }
+
     public static boolean getMode(Context ctx) { return getSharedPreferences(ctx).getBoolean(INCOGNITO_MODE, true); }
+    public static String getFileType(Context ctx) { return getSharedPreferences(ctx).getString(FILE_TYPE, ""); }
 
 }

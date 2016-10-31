@@ -2,6 +2,7 @@ package app.com.example.victoriajuan.jerdapp;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by user on 12/31/15.
  */
+
 public class FirstFragment extends Fragment{
 
     View myView;
@@ -52,8 +54,18 @@ public class FirstFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = mFilesAdapter.getItem(i);
-                if (str.contains("_")) {
-
+                if (str.contains(".")) {
+                    String string;
+                    if (str.contains("png")) {
+                        string = "img";
+                    } else if (str.contains("txt")) {
+                        string = "txt";
+                    } else {
+                        string = "aud";
+                    }
+                    SaveSharedPreference.setFileTypeViewing(getActivity(), string);
+                    Intent nextActivity = new Intent(getActivity(), DisplayFileActivity.class);
+                    startActivity(nextActivity);
                 } else {
                     recreateView(str);
                 }

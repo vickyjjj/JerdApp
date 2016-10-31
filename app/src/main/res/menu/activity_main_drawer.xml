@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_files"
             android:title="@string/files_activity" />
         <item
-            android:id="@+id/nav_second_layout"
-            android:icon="@drawable/ic_send_in"
-            android:title="@string/send_in_activity" />
-        <item
             android:id="@+id/nav_third_layout"
             android:icon="@drawable/ic_check_out"
             android:title="@string/check_activity" />

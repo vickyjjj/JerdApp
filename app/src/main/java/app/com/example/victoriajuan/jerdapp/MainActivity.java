@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity
                     .replace(content_frame
                             , new FirstFragment())
                     .commit();
-        } else if (id == R.id.nav_second_layout) {
-            fragmentManager.beginTransaction()
-                    .replace(content_frame
-                            , new SecondFragment())
-                    .commit();
         } else if (id == R.id.nav_third_layout) {
             fragmentManager.beginTransaction()
                     .replace(content_frame
