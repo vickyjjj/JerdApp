@@ -44,9 +44,9 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
 
         Spinner spinner = (Spinner) findViewById(R.id.audio_spinner);
 
-        File[] projectNames = this.getFilesDir().listFiles();
+        File[] projectNames = AudioRecordActivity.this.getFilesDir().listFiles();
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<String>());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(AudioRecordActivity.this, android.R.layout.simple_spinner_item, new ArrayList<String>());
 
         for (int i = 0; i < projectNames.length; i++) {
             dataAdapter.add(projectNames[i].getName());
@@ -62,78 +62,22 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
         startRecording.setEnabled(true);
         endRecording.setEnabled(false);
 
-        mAudioRecorder = new MediaRecorder();
-        mAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-
         startRecording.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
-                final String[] filename = new String[1];
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(AudioRecordActivity.this);
-                builder.setTitle("Title your recording:");
-
-                final EditText audInput = new EditText(AudioRecordActivity.this);
-                audInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(audInput);
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-                        String formattedDate = df.format(c.getTime());
-
-                        filename[0] = audInput.getText().toString() + "_" + formattedDate;
-
-                        dialog.dismiss();
-
-                        outputFile = getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + filename[0] + ".3gp";
-                        mAudioRecorder.setOutputFile(outputFile);
-
-                        try {
-                            mAudioRecorder.prepare();
-                            mAudioRecorder.start();
-                        }
-
-                        catch (IllegalStateException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        startRecording.setEnabled(false);
-                        endRecording.setEnabled(true);
-
-                        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
-                    }
-                });
-                builder.show();
-
+                startRecording();
+                startRecording.setEnabled(false);
+                endRecording.setEnabled(true);
             }
         });
 
         endRecording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAudioRecorder.stop();
-                mAudioRecorder.release();
-                mAudioRecorder  = null;
-
+                endRecording();
                 endRecording.setEnabled(false);
                 startRecording.setEnabled(true);
-
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_LONG).show();
-                finish();
             }
 
         });
@@ -154,6 +98,68 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startRecording() {
+
+        final String[] filename = new String[1];
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AudioRecordActivity.this);
+        builder.setTitle("Title your recording:");
+
+        final EditText audInput = new EditText(AudioRecordActivity.this);
+        audInput.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(audInput);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                String formattedDate = df.format(c.getTime());
+
+                filename[0] = audInput.getText().toString() + "_" + formattedDate;
+
+                dialog.dismiss();
+
+                mAudioRecorder = new MediaRecorder();
+                mAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                mAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+                outputFile = getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + filename[0] + ".3gp";
+                mAudioRecorder.setOutputFile(outputFile);
+
+                try {
+                    mAudioRecorder.prepare();
+                    mAudioRecorder.start();
+                }
+
+                catch (IllegalStateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void endRecording() {
+        mAudioRecorder.stop();
+        mAudioRecorder.release();
+        mAudioRecorder  = null;
+
+        Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_LONG).show();
+        finish();
     }
 
 

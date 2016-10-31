@@ -97,7 +97,7 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
                 try {
                     FileOutputStream outputStream;
                     String string = writtenNote.getText().toString();
-                    File newFile = new File(NotesActivity.this.getFilesDir() + "/" + selectedProject + "/", filename[0].replaceAll("\\s+","") + ".txt");
+                    File newFile = new File(NotesActivity.this.getFilesDir() + "/" + selectedProject + "/", filename[0].replaceAll("\\s+","_") + ".txt");
                     newFile.createNewFile();
 
                     outputStream = new FileOutputStream(newFile);

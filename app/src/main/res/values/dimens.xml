@@ -8,5 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="large_padding">50dp</dimen>
+    <dimen name="extra_large_padding">60dp</dimen>
     <dimen name="large_height">200dp</dimen>
 </resources>

@@ -2,15 +2,11 @@ package app.com.example.victoriajuan.jerdapp;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by victoriajuan on 10/18/16.
@@ -62,22 +58,12 @@ public class MainFragment extends Fragment {
         cameraImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, 1);
-                }
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+                startActivity(intent);
             }
         });
 
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
-        }
-    }
 }

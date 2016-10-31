@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="app.com.example.victoriajuan.jerdapp.AudioRecordActivity">
+    tools:context="app.com.example.victoriajuan.jerdapp.CameraActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -31,44 +31,24 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        tools:context="app.com.example.victoriajuan.jerdapp.AudioRecordActivity">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0:00"
-            android:id="@+id/audio_timer"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            style="?android:textAppearanceLarge"
-            android:gravity="center"/>
-
-        <Button
-            android:id="@+id/start_recording"
-            style="?android:textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            android:text="Start recording"/>
+        tools:context="app.com.example.victoriajuan.jerdapp.CameraActivity">
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/audio_spinner"
+            android:id="@+id/camera_spinner"
             android:backgroundTint="@color/colorAccent" />
 
         <Button
-            android:id="@+id/end_recording"
+            android:id="@+id/take_picture"
             style="?android:textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            android:text="End recording"/>
+            android:text="Take picture"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>
