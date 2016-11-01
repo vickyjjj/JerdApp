@@ -3,7 +3,9 @@ package app.com.example.victoriajuan.jerdapp;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +20,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -56,9 +67,7 @@ public class FirstFragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = mFilesAdapter.getItem(i);
                 if (str.contains(".")) {
-                    SaveSharedPreference.setFileDir(getActivity(), getActivity().getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + str);
-                    Intent nextActivity = new Intent(getActivity(), DisplayFileActivity.class);
-                    startActivity(nextActivity);
+                    smallFileAction(str);
                 } else {
                     selectedProject = str;
                     recreateView(str);
@@ -68,6 +77,52 @@ public class FirstFragment extends Fragment{
 
         return myView;
 
+    }
+
+    private void smallFileAction(String str) {
+        final String[] fileName = new String[1];
+        fileName[0] = str;
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("View or send?");
+        alertDialog.setMessage("Do you want to send this file to your organization for source checking, or view it yourself?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Send",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-43491.appspot.com/");
+                        StorageReference mountainsRef = storageRef.child("str");
+
+                        try {
+                            InputStream stream = new FileInputStream(new File(getActivity().getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + fileName[0]));
+                            UploadTask uploadTask = mountainsRef.putStream(stream);
+                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle unsuccessful uploads
+                                    Toast.makeText(getActivity(), "Files not uploaded.", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                    Toast.makeText(getActivity(), "Files uploaded.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } catch (FileNotFoundException e) {  }
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Display",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SaveSharedPreference.setFileDir(getActivity(), getActivity().getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + fileName[0]);
+                        Intent nextActivity = new Intent(getActivity(), DisplayFileActivity.class);
+                        startActivity(nextActivity);
+                    }
+                });
+        alertDialog.show();
     }
 
     @Override

@@ -104,8 +104,8 @@ public class DisplayFileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mPlayer.release();
                 mPlayer = null;
-                playButton.setEnabled(false);
-                pauseButton.setEnabled(true);
+                playButton.setEnabled(true);
+                pauseButton.setEnabled(false);
             }
         });
     }
