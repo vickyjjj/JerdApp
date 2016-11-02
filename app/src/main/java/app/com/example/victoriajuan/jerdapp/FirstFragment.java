@@ -53,6 +53,9 @@ public class FirstFragment extends Fragment{
                 R.id.list_item,
                 new ArrayList<String>()
         );
+        //this is a totally rndom comment that does not mean anything
+
+
 
         File[] projectNames = getActivity().getFilesDir().listFiles();
 
@@ -91,7 +94,7 @@ public class FirstFragment extends Fragment{
 
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-43491.appspot.com/");
-                        StorageReference mountainsRef = storageRef.child("str");
+                        StorageReference mountainsRef = storageRef.child(fileName[0]);
 
                         try {
                             InputStream stream = new FileInputStream(new File(getActivity().getFilesDir().getAbsolutePath() + "/" + selectedProject + "/" + fileName[0]));
@@ -110,7 +113,7 @@ public class FirstFragment extends Fragment{
                                     Toast.makeText(getActivity(), "Files uploaded.", Toast.LENGTH_LONG).show();
                                 }
                             });
-                        } catch (FileNotFoundException e) {  }
+                        } catch (FileNotFoundException e) {}
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Display",
