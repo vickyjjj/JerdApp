@@ -4,15 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main_layout"
-            android:icon="@drawable/ic_notes"
+            android:icon="@android:drawable/ic_menu_add"
             android:title="@string/tools_activity" />
         <item
             android:id="@+id/nav_first_layout"
-            android:icon="@drawable/ic_files"
+            android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/files_activity" />
         <item
             android:id="@+id/nav_third_layout"
-            android:icon="@drawable/ic_check_out"
+            android:icon="@android:drawable/ic_menu_view"
             android:title="@string/check_activity" />
     </group>
 
@@ -21,11 +21,11 @@
             <group android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_howto"
-                android:icon="@drawable/ic_help"
+                android:icon="@android:drawable/ic_menu_help"
                 android:title="@string/how_to" />
             <item
                 android:id="@+id/nav_account"
-                android:icon="@drawable/ic_account"
+                android:icon="@android:drawable/ic_menu_preferences"
                 android:title="@string/account" />
             </group>
         </menu>

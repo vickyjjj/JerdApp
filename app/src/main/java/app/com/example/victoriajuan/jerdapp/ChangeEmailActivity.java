@@ -3,19 +3,25 @@ package app.com.example.victoriajuan.jerdapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,6 +38,8 @@ public class ChangeEmailActivity extends AppCompatActivity {
     private EditText mEmailView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private String[] email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,17 +93,18 @@ public class ChangeEmailActivity extends AppCompatActivity {
         mEmailView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        email = new String[1];
+        email[0] = mEmailView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email[0])) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!isEmailValid(email[0])) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -107,25 +116,62 @@ public class ChangeEmailActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
 
-            showProgress(true);
+            AlertDialog alertDialog = new AlertDialog.Builder(ChangeEmailActivity.this).create();
+            alertDialog.setTitle("Re-enter your email and password:");
 
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            user.updateEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "User email address updated.");
-                                showProgress(false);
-                                finish();
-                            } else {
-                                Toast.makeText(ChangeEmailActivity.this, "Error: cannot change email at this time.",
-                                        Toast.LENGTH_LONG).show();
-                                showProgress(false);
-                                finish();
-                            }
+            LinearLayout layout = new LinearLayout(ChangeEmailActivity.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            final EditText input = new EditText(ChangeEmailActivity.this);
+            final EditText input2 = new EditText(ChangeEmailActivity.this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            layout.addView(input);
+            layout.addView(input2);
+            alertDialog.setView(layout);
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            showProgress(true);
+                            dialog.dismiss();
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                            AuthCredential credential = EmailAuthProvider
+                                    .getCredential(input.getText().toString(), input2.getText().toString());
+
+                            user.reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d(TAG, "User re-authenticated.");
+                                        }
+                                    });
+
+                            user.updateEmail(email[0])
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(ChangeEmailActivity.this, "Email changed.",
+                                                        Toast.LENGTH_LONG).show();
+                                                Log.d(TAG, "User email address updated.");
+                                                showProgress(false);
+                                            } else {
+                                                Toast.makeText(ChangeEmailActivity.this, "Error: cannot change email at this time.",
+                                                        Toast.LENGTH_LONG).show();
+                                                showProgress(false);
+                                            }
+                                        }
+                                    });
+                            showProgress(false);
+
+                            finish();
                         }
                     });
+            alertDialog.show();
+
         }
     }
 

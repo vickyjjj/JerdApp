@@ -18,9 +18,9 @@
         android:title="Change account password"
         android:summary="Change the password for an organization's account" />
 
-    <SwitchPreference
+    <!-- SwitchPreference
         android:key="pref_incognito_mode_key"
         android:title="Turn on icognito mode"
-        android:summary="Screen blackens when phone is held upside down" />
+        android:summary="Screen blackens when phone is held upside down" /-->
 
 </PreferenceScreen>

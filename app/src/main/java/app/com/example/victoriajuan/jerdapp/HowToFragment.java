@@ -17,7 +17,7 @@ public class HowToFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.account_layout, container, false);
+        myView = inflater.inflate(R.layout.help_layout, container, false);
         return myView;
     }
 }

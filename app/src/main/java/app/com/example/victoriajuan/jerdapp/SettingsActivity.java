@@ -23,7 +23,7 @@ public class SettingsActivity extends PreferenceFragment
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
 
-        bindPreferenceSummaryToValue(findPreference("pref_incognito_mode_key"));
+        //bindPreferenceSummaryToValue(findPreference("pref_incognito_mode_key"));
 
         Preference myPref = findPreference("pref_set_acc_key");
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

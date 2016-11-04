@@ -32,4 +32,10 @@
     <string name="auth_failed">Login Failed</string>
     <string name="error_already">An account with this email already exists.</string>
     <string name="auth_failed_create">Account Creation Failed</string>
+
+    <!-- Strings related to how to page -->
+    <string name="tools_howto">Tools include the camera, notes taker, audio recorder, and tips. From the drop down menu on each page, choose the project your file is a part of. When you name your file, the current date will be tacked onto the end of each.</string>
+    <string name="myfiles_howto">To create a new project, click on the pink button in the bottom right of the screen. To view files within a project, click the project folder. To view the file, click on the file.</string>
+    <string name="checkfiles_howto">To get files that another user has uploaded, press the pink button in the bottom right of the screen and enter its exact name (including extension). If your file is found, it will be downloaded and will appear on the page. Click on it to view.</string>
+    <string name="accounts_howto">You can check if you are signed in by clicking on the "Sign in" option. You can also sign into a different account, or create a new account, which requires email verification. You can also change your email or password on an account. </string>
 </resources>

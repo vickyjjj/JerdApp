@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    private String[] email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,12 +99,13 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        email = new String[1];
+        email[0] = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         showProgress(true);
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email[0], password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -113,6 +116,9 @@ public class LoginActivity extends AppCompatActivity {
                             mPasswordView.setError(getString(R.string.error_incorrect));
                             mPasswordView.requestFocus();
                         } else {
+                            SaveSharedPreference.setDefaultAcc(LoginActivity.this, email[0]);
+                            Toast.makeText(LoginActivity.this, "Signed in with " + SaveSharedPreference.getEmail(LoginActivity.this),
+                                    Toast.LENGTH_LONG).show();
                             showProgress(false);
                             finish();
                         }
