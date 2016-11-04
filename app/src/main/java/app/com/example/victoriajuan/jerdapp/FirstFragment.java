@@ -60,7 +60,8 @@ public class FirstFragment extends Fragment{
         File[] projectNames = getActivity().getFilesDir().listFiles();
 
         for (int i = 0; i < projectNames.length; i++) {
-            mFilesAdapter.add(projectNames[i].getName());
+            if (!(projectNames[i].getName().equals("imported")))
+                mFilesAdapter.add(projectNames[i].getName());
         }
 
         ListView listView = (ListView) myView.findViewById(R.id.listview_local_projects);
@@ -148,6 +149,7 @@ public class FirstFragment extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
                         filename[0] = input.getText().toString();
                         makeDirectory(filename[0]);
+                        mFilesAdapter.add(filename[0]);
                         dialog.dismiss();
                     }
                 });

@@ -98,15 +98,17 @@ public class ThirdFragment extends Fragment{
                         StorageReference pathReference = storageRef.child(filename[0]);
 
                         if (filename[0].contains("png")) {
-                            filename[1] = "png";
+                            filename[1] = ".png";
                         } else if (filename[0].contains("3gp")) {
-                            filename[1] = "3gp";
+                            filename[1] = ".3gp";
                         } else {
-                            filename[1] = "txt";
+                            filename[1] = ".txt";
                         }
 
                         try {
-                            File localFile = File.createTempFile(filename[0], filename[1]);
+                            File newDirectory = new File(getActivity().getFilesDir().getAbsolutePath() + "/imported/");
+                            File localFile = File.createTempFile(filename[0].substring(0, filename[0].length() - 4), filename[1], newDirectory);
+                            mFilesAdapter.add(localFile.getName());
                             pathReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -116,7 +118,7 @@ public class ThirdFragment extends Fragment{
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
-                                    Toast.makeText(getActivity(), "Files not downloaded.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "Files not downloaded. Check that you have entered the name of the file correctly.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         } catch(IOException e) { }
