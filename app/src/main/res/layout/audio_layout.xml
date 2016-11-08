@@ -33,15 +33,12 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         tools:context="app.com.example.victoriajuan.jerdapp.AudioRecordActivity">
 
-        <TextView
-            android:layout_width="match_parent"
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:format="%s"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0:00"
-            android:id="@+id/audio_timer"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            style="?android:textAppearanceLarge"
-            android:gravity="center"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <Button
             android:id="@+id/start_recording"
@@ -69,6 +66,8 @@
 
 
     </LinearLayout>
+
+
 
 
 </android.support.design.widget.CoordinatorLayout>

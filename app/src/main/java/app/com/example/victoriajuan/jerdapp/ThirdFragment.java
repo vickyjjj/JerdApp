@@ -94,7 +94,7 @@ public class ThirdFragment extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
                         filename[0] = input.getText().toString();
                         FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-43491.appspot.com/");
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-XXXXX.appspot.com/");
                         StorageReference pathReference = storageRef.child(filename[0]);
 
                         if (filename[0].contains("png")) {

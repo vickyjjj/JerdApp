@@ -18,6 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsActivity extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
 
+    private Preference myPref;
+    private Preference passwordPref;
+    private Preference emailPref;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +29,8 @@ public class SettingsActivity extends PreferenceFragment
 
         //bindPreferenceSummaryToValue(findPreference("pref_incognito_mode_key"));
 
-        Preference myPref = findPreference("pref_set_acc_key");
+        myPref = findPreference("pref_set_acc_key");
+        myPref.setSummary("Currently signed in: " + SaveSharedPreference.getEmail(getActivity()));
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -58,7 +63,7 @@ public class SettingsActivity extends PreferenceFragment
             }
         });
 
-        Preference passwordPref = findPreference("pref_change_pass_key");
+        passwordPref = findPreference("pref_change_pass_key");
         passwordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
@@ -82,7 +87,7 @@ public class SettingsActivity extends PreferenceFragment
             }
         });
 
-        Preference emailPref = findPreference("pref_change_email_key");
+        emailPref = findPreference("pref_change_email_key");
         emailPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
@@ -114,6 +119,12 @@ public class SettingsActivity extends PreferenceFragment
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getBoolean(preference.getKey(), true));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        myPref.setSummary("Currently signed in: " + SaveSharedPreference.getEmail(getActivity()));
     }
 
     @Override

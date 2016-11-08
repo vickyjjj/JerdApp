@@ -94,7 +94,7 @@ public class FirstFragment extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
 
                         FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-43491.appspot.com/");
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-XXXXX.appspot.com/");
                         StorageReference mountainsRef = storageRef.child(fileName[0]);
 
                         try {

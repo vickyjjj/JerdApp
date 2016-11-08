@@ -3,6 +3,7 @@ package app.com.example.victoriajuan.jerdapp;
 import android.content.DialogInterface;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
     private String selectedProject;
     private MediaRecorder mAudioRecorder;
     private String outputFile;
+    private Chronometer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        timer = (Chronometer) findViewById(R.id.chronometer);
+
         Spinner spinner = (Spinner) findViewById(R.id.audio_spinner);
 
         File[] projectNames = AudioRecordActivity.this.getFilesDir().listFiles();
@@ -49,7 +54,8 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(AudioRecordActivity.this, android.R.layout.simple_spinner_item, new ArrayList<String>());
 
         for (int i = 0; i < projectNames.length; i++) {
-            dataAdapter.add(projectNames[i].getName());
+            if (!(projectNames[i].getName().equals("imported")))
+                dataAdapter.add(projectNames[i].getName());
         }
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,6 +84,7 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
                 endRecording();
                 endRecording.setEnabled(false);
                 startRecording.setEnabled(true);
+                timer.stop();
             }
 
         });
@@ -120,6 +127,9 @@ public class AudioRecordActivity extends AppCompatActivity implements AdapterVie
                 String formattedDate = df.format(c.getTime());
 
                 filename[0] = audInput.getText().toString() + "_" + formattedDate;
+
+                timer.setBase(SystemClock.elapsedRealtime());
+                timer.start();
 
                 dialog.dismiss();
 

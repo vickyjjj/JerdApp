@@ -6,7 +6,7 @@
     <Preference
         android:key="pref_set_acc_key"
         android:title="Set default account"
-        android:summary="Set the default organization account to send in and check files" />
+        android:summary="Currently signed in: None" />
 
     <Preference
         android:key="pref_change_email_key"

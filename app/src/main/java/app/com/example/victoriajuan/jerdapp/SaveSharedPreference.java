@@ -38,7 +38,7 @@ public class SaveSharedPreference {
     public static boolean getMode(Context ctx) { return getSharedPreferences(ctx).getBoolean(INCOGNITO_MODE, true); }
     public static String getFileDir(Context ctx) { return getSharedPreferences(ctx).getString(FILE_DIR, ""); }
     public static String getEmail(Context ctx) {
-        return getSharedPreferences(ctx).getString(ACC_EMAIL, "");
+        return getSharedPreferences(ctx).getString(ACC_EMAIL, "None");
     }
 
 }

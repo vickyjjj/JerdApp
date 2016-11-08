@@ -33,6 +33,15 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         tools:context="app.com.example.victoriajuan.jerdapp.DisplayFileActivity">
 
+        <Chronometer
+            android:id="@+id/chronometer_display"
+            android:format="%s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center"
+            android:visibility="invisible"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
-            android:text="Play recording"
+            android:text="Play"
             android:visibility="invisible"/>
 
         <Button
@@ -60,7 +69,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
-            android:text="Pause recording"
+            android:text="Pause"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/stop_recording"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="Stop"
             android:visibility="invisible"/>
 
         <ImageView

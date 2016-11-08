@@ -3,7 +3,6 @@ package app.com.example.victoriajuan.jerdapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -53,7 +52,8 @@ public class CameraActivity extends AppCompatActivity implements AdapterView.OnI
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<String>());
 
         for (int i = 0; i < projectNames.length; i++) {
-            dataAdapter.add(projectNames[i].getName());
+            if (!(projectNames[i].getName().equals("imported")))
+                dataAdapter.add(projectNames[i].getName());
         }
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

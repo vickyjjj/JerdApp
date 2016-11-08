@@ -56,7 +56,8 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<String>());
 
         for (int i = 0; i < projectNames.length; i++) {
-            dataAdapter.add(projectNames[i].getName());
+            if (!(projectNames[i].getName().equals("imported")))
+                dataAdapter.add(projectNames[i].getName());
         }
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
