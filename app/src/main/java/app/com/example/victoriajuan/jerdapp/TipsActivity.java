@@ -37,8 +37,8 @@ public class TipsActivity extends AppCompatActivity {
 
         mTipsAdapter = new ArrayAdapter<String>(
                 TipsActivity.this,
-                R.layout.list_item,
-                R.id.list_item,
+                R.layout.list_item_question,
+                R.id.list_item_questions,
                 new ArrayList<String>()
         );
 

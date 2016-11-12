@@ -34,8 +34,8 @@
     <string name="auth_failed_create">Account Creation Failed</string>
 
     <!-- Strings related to how to page -->
-    <string name="tools_howto">Tools include the camera, notes taker, audio recorder, and tips. From the drop down menu on each page, choose the project your file is a part of. When you name your file, the current date will be tacked onto the end of each.</string>
-    <string name="myfiles_howto">To create a new project, click on the pink button in the bottom right of the screen. To view files within a project, click the project folder. To view the file, click on the file.</string>
-    <string name="checkfiles_howto">To get files that another user has uploaded, press the pink button in the bottom right of the screen and enter its exact name (including extension). If your file is found, it will be downloaded and will appear on the page. Click on it to view.</string>
-    <string name="accounts_howto">You can check if you are signed in by clicking on the "Sign in" option. You can also sign into a different account, or create a new account, which requires email verification. You can also change your email or password on an account. </string>
+    <string name="tools_howto">From the drop down menu on each tools page, choose the project your file is a part of. The current date will be appended to the end of your file name.</string>
+    <string name="myfiles_howto">To create a new project, click on the pink button in the bottom right of the screen. Files are in project folders. To view/send files, click on the file.</string>
+    <string name="checkfiles_howto">To get files another user has uploaded, press the pink button and enter its exact name (including extension). Click on files to view.</string>
+    <string name="accounts_howto">The currently signed in account is displayed under "Set Account". You can also sign into a different account, create a new account (w/email verification), change your email or password, or delete account. </string>
 </resources>

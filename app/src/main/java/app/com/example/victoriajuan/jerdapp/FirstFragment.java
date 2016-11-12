@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 12/31/15.
@@ -39,36 +39,31 @@ import java.util.ArrayList;
 public class FirstFragment extends Fragment{
 
     View myView;
-    private ArrayAdapter<String> mFilesAdapter;
+    private CustomAdapter mFilesAdapter;
     private String selectedProject;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        myView = inflater.inflate(R.layout.first_layout, container, false);
-
-        mFilesAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.list_item,
-                R.id.list_item,
-                new ArrayList<String>()
-        );
-        //this is a totally rndom comment that does not mean anything
+        List<String> itemNames = new ArrayList<String>();
 
         File[] projectNames = getActivity().getFilesDir().listFiles();
 
         for (int i = 0; i < projectNames.length; i++) {
             if (!(projectNames[i].getName().equals("imported")))
-                mFilesAdapter.add(projectNames[i].getName());
+                itemNames.add(projectNames[i].getName());
         }
 
+        myView = inflater.inflate(R.layout.first_layout, container, false);
+
+        mFilesAdapter = new CustomAdapter(getActivity(), itemNames);
         ListView listView = (ListView) myView.findViewById(R.id.listview_local_projects);
         listView.setAdapter(mFilesAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String str = mFilesAdapter.getItem(i);
+                String str = mFilesAdapter.getTitle(i);
                 if (str.contains(".")) {
                     smallFileAction(str);
                 } else {
@@ -174,5 +169,7 @@ public class FirstFragment extends Fragment{
         for (int i = 0; i < fileNames.length; i++) {
             mFilesAdapter.add(fileNames[i].getName());
         }
+
+        mFilesAdapter.notifyDataSetChanged();
     }
 }

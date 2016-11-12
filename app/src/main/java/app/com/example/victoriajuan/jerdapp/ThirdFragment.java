@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victoriajuan on 10/12/16.
@@ -34,20 +34,16 @@ import java.util.ArrayList;
 public class ThirdFragment extends Fragment{
 
     View myView;
-    private ArrayAdapter<String> mFilesAdapter;
+    private CustomAdapter mFilesAdapter;
     private String selectedProject;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.third_layout, container, false);
 
-        mFilesAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.list_item,
-                R.id.list_item,
-                new ArrayList<String>()
-        );
+        List<String> itemNames = new ArrayList<String>();
+
+        myView = inflater.inflate(R.layout.third_layout, container, false);
 
         File newPath = new File(getActivity().getFilesDir().getAbsolutePath() + "/imported/");
         if (!newPath.exists()) {
@@ -57,15 +53,16 @@ public class ThirdFragment extends Fragment{
         File[] projectNames = newPath.listFiles();
 
         for (int i = 0; i < projectNames.length; i++) {
-            mFilesAdapter.add(projectNames[i].getName());
+            itemNames.add(projectNames[i].getName());
         }
 
         ListView listView = (ListView) myView.findViewById(R.id.listview_shared_projects);
+        mFilesAdapter = new CustomAdapter(getActivity(), itemNames);
         listView.setAdapter(mFilesAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String str = mFilesAdapter.getItem(i);
+                String str = mFilesAdapter.getTitle(i);
                 SaveSharedPreference.setFileDir(getActivity(), getActivity().getFilesDir().getAbsolutePath() + "/imported/" + str);
                 Intent nextActivity = new Intent(getActivity(), DisplayFileActivity.class);
                 startActivity(nextActivity);
@@ -113,6 +110,7 @@ public class ThirdFragment extends Fragment{
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     Toast.makeText(getActivity(), "Files downloaded.", Toast.LENGTH_LONG).show();
+                                    mFilesAdapter.notifyDataSetChanged();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
