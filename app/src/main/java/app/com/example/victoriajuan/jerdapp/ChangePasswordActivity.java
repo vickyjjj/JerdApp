@@ -121,6 +121,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             final EditText input = new EditText(ChangePasswordActivity.this);
             final EditText input2 = new EditText(ChangePasswordActivity.this);
             input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             layout.addView(input);
             layout.addView(input2);
             alertDialog.setView(layout);

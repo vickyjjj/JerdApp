@@ -1,14 +1,20 @@
 package app.com.example.victoriajuan.jerdapp;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by victoriajuan on 10/22/16.
@@ -17,6 +23,7 @@ import java.util.List;
 public class TipsActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> mTipsAdapter;
+    final String[] filename = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +35,66 @@ public class TipsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> tips = new ArrayList<String>();
-        tips.add("1. Start off with introductions. Mention your name, offer a smile, then ask what their name/age/position is. Make sure to double check spelling.");
-        tips.add("2. Begin with the lighter questions first. Who was involved? What was done? When and where?");
-        tips.add("3. Vary your question beginnings: Tell me about.... What were you feeling when.... What was it like....");
-        tips.add("4. Ask the more difficult questions. How did that happen? Why did you do that? What is the meaning?");
-        tips.add("5. Always look sincerely at your subject. Ask follow up questions for more information or clarification.");
-        tips.add("6. End with thoughts on the future. What do you look forward to? How will this change in the next months?");
-        tips.add("7. Give your interview subject a chance for 'any last thoughts.' Get contact info and say thanks.");
-
         mTipsAdapter = new ArrayAdapter<String>(
                 TipsActivity.this,
                 R.layout.list_item,
                 R.id.list_item,
-                tips
+                new ArrayList<String>()
         );
 
         ListView listView = (ListView) findViewById(R.id.listview_tips);
         listView.setAdapter(mTipsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String[] str = new String[1];
+                str[0] = mTipsAdapter.getItem(i);
+                AlertDialog alertDialog = new AlertDialog.Builder(TipsActivity.this).create();
+                alertDialog.setTitle("Delete this question?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTipsAdapter.remove(str[0]);
+                                mTipsAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_first);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(TipsActivity.this);
+                builder.setTitle("Create new interview question:");
+
+                final EditText input = new EditText(TipsActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mTipsAdapter.add(input.getText().toString());
+                        mTipsAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+
+        });
 
     }
+
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {

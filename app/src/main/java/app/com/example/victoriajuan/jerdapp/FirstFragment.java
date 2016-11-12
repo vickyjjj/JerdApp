@@ -45,6 +45,7 @@ public class FirstFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         myView = inflater.inflate(R.layout.first_layout, container, false);
 
         mFilesAdapter = new ArrayAdapter<String>(
@@ -54,8 +55,6 @@ public class FirstFragment extends Fragment{
                 new ArrayList<String>()
         );
         //this is a totally rndom comment that does not mean anything
-
-
 
         File[] projectNames = getActivity().getFilesDir().listFiles();
 
@@ -94,7 +93,7 @@ public class FirstFragment extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
 
                         FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-XXXXX.appspot.com/");
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jerd-43491.appspot.com/");
                         StorageReference mountainsRef = storageRef.child(fileName[0]);
 
                         try {

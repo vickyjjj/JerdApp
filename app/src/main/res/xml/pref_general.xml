@@ -18,6 +18,10 @@
         android:title="Change account password"
         android:summary="Change the password for an organization's account" />
 
+    <Preference
+        android:key="pref_delete_acc_key"
+        android:title="Delete account" />
+
     <!-- SwitchPreference
         android:key="pref_incognito_mode_key"
         android:title="Turn on icognito mode"
