@@ -15,4 +15,4 @@ Prerequisites:
 * Android version 14+ (24+ preferred)
 
 ## Screenshots
-![Home Page](/app/src/main/res/screenshots/homepage.png "Home Page")
+<img src="https://github.com/vickyjjj/JerdApp/blob/master/app/src/main/res/screenshots/homepage.png?raw=true" align="left" height="30%" width="30%" >
