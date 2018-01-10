@@ -15,4 +15,4 @@ Prerequisites:
 * Android version 14+ (24+ preferred)
 
 ## Screenshots
-
+![Home Page](/app/src/main/res/screenshots/homepage.png "Home Page")
