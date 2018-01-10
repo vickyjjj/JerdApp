@@ -16,6 +16,11 @@ Prerequisites:
 * Internet Connection
 * Android version 14+ (24+ preferred)
 
+## Room for Improvement
+* UI design - colors are often default and tacky; resolution of images and icons is low; some pages close the app when the "back" button is pressed rather than returning to the open drawer navigation; tools UI can be improved with better setup
+* File privacy - currently, any file can be downloaded given that you entered the exact file name; a password should be implemented along with an easier title system
+* Instructions page - instructions can be improved with images and examples rather than plain text
+
 ## Screenshots
 ### Home page
 <img src="https://github.com/vickyjjj/JerdApp/blob/master/app/src/main/res/screenshots/homepage.png?raw=true" align="left" height="20%" width="20%" >
@@ -56,8 +61,3 @@ Hitting "How To" in the drawer menu gives this page, where users can read instru
 ### Settings
 <img src="https://github.com/vickyjjj/JerdApp/blob/master/app/src/main/res/screenshots/settings.png?raw=true" align="left" height="20%" width="20%" >
 Hitting "Settings" in the drawer menu gives this page, where users can change details about their account. This page interacts with the Firebase platform in order to achieve account functionality.
-
-## Room for Improvement
-* UI design - colors are often default and tacky; resolution of images and icons is low; some pages close the app when the "back" button is pressed rather than returning to the open drawer navigation; tools UI can be improved with better setup
-* File privacy - currently, any file can be downloaded given that you entered the exact file name; a password should be implemented along with an easier title system
-* Instructions page - instructions can be improved with images and examples rather than plain text
